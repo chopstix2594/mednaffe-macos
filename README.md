@@ -4,7 +4,7 @@ Mednaffe is a front-end (GUI) for [mednafen emulator](https://mednafen.github.io
 Its main features are:
 
  * It is written in C language.
- * Available for Linux and Windows.
+ * Available for Linux, Windows, and macOS.
  * The only dependency is GTK 3.
  * GPLv3 licensed.
 
@@ -12,6 +12,7 @@ Its main features are:
  * You can download Mednaffe [here](https://github.com/AmatCoder/mednaffe/releases/latest "Downloads").
  * You can read the changelog [here](https://github.com/AmatCoder/mednaffe/blob/master/ChangeLog "ChangeLog").
  * [Flatpak](https://flathub.org/apps/details/com.github.AmatCoder.mednaffe) is available for Linux users.
+ * [App Bundle](https://github.com/chopstix2594/mednaffe-macos/releases/latest) is available for macOS users.
 
 *Note: Mednaffe only works with 1.22.1 or higher versions of mednafen emulator.*
 
@@ -28,3 +29,8 @@ Its main features are:
 ![Mednaffe on Windows 7](https://github.com/AmatCoder/mednaffe/blob/wiki/mednaffe-0.9.0-windows.png "Mednaffe on Windows 7")
 
 ![Mednaffe on Windows 7](https://github.com/AmatCoder/mednaffe/blob/wiki/mednaffe-0.9.0-windows2.png "Mednaffe on Windows 7")
+
+###### macOS
+
+![Mednaffe on macOS 26 Tahoe](https://github.com/chopstix2594/mednaffe-macos/blob/wiki/mednaffe-0.9.3-macos.png "Mednaffe on macOS 26 Tahoe")
+![Mednaffe on macOS 26 Tahoe](https://github.com/chopstix2594/mednaffe-macos/blob/wiki/mednaffe-0.9.3-macos2.png "Mednaffe on macOS 26 Tahoe")
