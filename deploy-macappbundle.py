@@ -40,8 +40,6 @@ def bundle(include_mednafen: bool = False):
     assert os.path.isfile(mednaffe), "mednaffe binary is present"
     pyi_args: list[str] = [
         "./launch-macappbundle.py",
-        "--name",
-        "Mednaffe",
         "--icon",
         "share/icons/hicolor/128x128/apps/mednaffe.png",
         "--onedir",
@@ -54,13 +52,20 @@ def bundle(include_mednafen: bool = False):
         assert mednafen_or_none is not None, "mednafen binary is present"
         mednafen: str = mednafen_or_none
         pyi_args += [
+            "--name",
+            "Mednaffe+Mednafen",
             "--add-binary",
             f"{mednafen}{os.pathsep}.",
+        ]
+    else:
+        pyi_args += [
+            "--name",
+            "Mednaffe",
         ]
     pyi.run(pyi_args)
 
 
-def compress():
+def compress(include_mednafen: bool = False):
     ver: str = ""
     with open("configure", "r") as f:
         ver_line: str = ""
@@ -73,11 +78,25 @@ def compress():
             ver = ver_line.split("=")[1].replace("'", "").strip()
     machine: str = platform_machine().replace("arm64", "aarch64")
     pkgname: str = f"mednaffe-{ver}-macOS-{machine}.tar.xz"
+    appname: str = "Mednaffe.app"
+    if include_mednafen:
+        mednafen_info: list[str] = (
+            subprocess.run(("mednafen",), check=False, capture_output=True)
+            .stdout.decode()
+            .splitlines()
+        )
+        mednafen_version: str = (
+            mednafen_info[0].replace("Starting Mednafen", "").strip()
+        )
+        pkgname = pkgname.replace(
+            f"mednaffe-{ver}", f"mednaffe-{ver}+mednafen-{mednafen_version}"
+        )
+        appname = "Mednaffe+Mednafen.app"
     os.chdir("dist")
     env: dict[str, str] = os.environ.copy()
     env["XZ_OPT"] = f"-T{os.cpu_count()}"
     try:
-        subprocess.run(("tar", "-cJvf", pkgname, "Mednaffe.app"), env=env)
+        subprocess.run(("tar", "-cJvf", pkgname, appname), env=env)
     except subprocess.CalledProcessError as e:
         print(f"could not create compressed package: {e}")
         sys.exit(1)
@@ -111,7 +130,7 @@ def main():
     bundle(in_args.include_mednafen)
 
     if in_args.compress:
-        compress()
+        compress(in_args.include_mednafen)
 
 
 if __name__ == "__main__":
