@@ -77,7 +77,7 @@ def compress(include_mednafen: bool = False):
             print(ver_line)
             ver = ver_line.split("=")[1].replace("'", "").strip()
     machine: str = platform_machine().replace("arm64", "aarch64")
-    pkgname: str = f"mednaffe-{ver}-macOS-{machine}.tar.xz"
+    pkgname: str = f"mednaffe-{ver}-macos1-macOS-{machine}.tar.xz"
     appname: str = "Mednaffe.app"
     if include_mednafen:
         mednafen_info: list[str] = (
@@ -89,7 +89,8 @@ def compress(include_mednafen: bool = False):
             mednafen_info[0].replace("Starting Mednafen", "").strip()
         )
         pkgname = pkgname.replace(
-            f"mednaffe-{ver}", f"mednaffe-{ver}+mednafen-{mednafen_version}"
+            f"mednaffe-{ver}-macos1",
+            f"mednaffe-{ver}-macos1+mednafen-{mednafen_version}",
         )
         appname = "Mednaffe+Mednafen.app"
     os.chdir("dist")

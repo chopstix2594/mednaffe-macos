@@ -12,7 +12,18 @@ Its main features are:
  * You can download Mednaffe [here](https://github.com/AmatCoder/mednaffe/releases/latest "Downloads").
  * You can read the changelog [here](https://github.com/AmatCoder/mednaffe/blob/master/ChangeLog "ChangeLog").
  * [Flatpak](https://flathub.org/apps/details/com.github.AmatCoder.mednaffe) is available for Linux users.
- * [App Bundle](https://github.com/chopstix2594/mednaffe-macos/releases/latest) is available for macOS users.
+ * [App](https://github.com/chopstix2594/mednaffe-macos/releases/latest) is available for macOS users; two versions are available:
+    * A version which includes Mednafen itself (1.32.1 at time of writing)
+    * A version which runs a system installation of Mednafen
+      * The following paths will be searched for Mednafen's executable:
+      * `$HOME/.local/bin` - create a symlink here if your installation is not in any of the following paths
+      * `/usr/local/bin`
+      * `/opt/homebrew/bin`
+      * `/opt/homebrew/opt/mednafen/bin`
+      * `/usr/local/opt/mednafen/bin`
+      * `/opt/local/bin`
+      * `/opt/local/sbin`
+   * macOS's gatekeeper may block the app from running; allow the app in System Settings -> Privacy & Security or run `xattr -d com.apple.quarantine <APP>` on the app in a terminal if this is the case.
 
 *Note: Mednaffe only works with 1.22.1 or higher versions of mednafen emulator.*
 
