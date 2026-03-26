@@ -37,7 +37,7 @@ def build():
 
 def bundle(include_mednafen: bool = False):
     mednaffe: str = "./src/mednaffe"
-    assert os.path.isfile(mednaffe), "mednaffe binary is present"
+    assert os.path.isfile(mednaffe), "mednaffe binary is not present"
     pyi_args: list[str] = [
         "./launch-macappbundle.py",
         "--icon",
@@ -49,7 +49,7 @@ def bundle(include_mednafen: bool = False):
         "--noconfirm",
     ]
     if include_mednafen:
-        assert mednafen_or_none is not None, "mednafen binary is present"
+        assert mednafen_or_none is not None, "mednafen binary is not present"
         mednafen: str = mednafen_or_none
         pyi_args += [
             "--name",
