@@ -1,0 +1,3 @@
+pyinstaller
+std-nslog
+Pillow

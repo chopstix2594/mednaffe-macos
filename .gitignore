@@ -1,0 +1,14 @@
+.DS_Store
+config.h
+config.log
+config.status
+Makefile
+stamp-h1
+*.o
+.deps/
+.dirstamp
+mednaffe
+venv*/
+build/
+dist/
+*.spec
