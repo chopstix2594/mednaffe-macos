@@ -1,9 +1,10 @@
 # Stdlib imports
 import argparse
 import os
-import shutil
 import subprocess
 import sys
+from platform import machine as platform_machine
+from shutil import which
 
 # Library imports
 from PyInstaller import __main__ as pyi
@@ -15,7 +16,7 @@ assert homebrew_prefix_or_none is not None, (
 homebrew_prefix: str = homebrew_prefix_or_none
 assert homebrew_prefix in os.environ["PATH"]
 
-mednafen_or_none: str | None = shutil.which("mednafen")
+mednafen_or_none: str | None = which("mednafen")
 
 
 def configure():
@@ -59,6 +60,30 @@ def bundle(include_mednafen: bool = False):
     pyi.run(pyi_args)
 
 
+def compress():
+    ver: str = ""
+    with open("configure", "r") as f:
+        ver_line: str = ""
+        for line in f.readlines():
+            if "PACKAGE_VERSION" in line:
+                ver_line = line
+                break
+        if ver_line:
+            print(ver_line)
+            ver = ver_line.split("=")[1].replace("'", "").strip()
+    machine: str = platform_machine().replace("arm64", "aarch64")
+    pkgname: str = f"mednaffe-{ver}-macOS-{machine}.tar.xz"
+    os.chdir("dist")
+    env: dict[str, str] = os.environ.copy()
+    env["XZ_OPT"] = f"-T{os.cpu_count()}"
+    try:
+        subprocess.run(("tar", "-cJvf", pkgname, "Mednaffe.app"), env=env)
+    except subprocess.CalledProcessError as e:
+        print(f"could not create compressed package: {e}")
+        sys.exit(1)
+    os.chdir("..")
+
+
 def main():
     parser = argparse.ArgumentParser(description="deploy mednaffe as macOS app bundle")
     parser.add_argument(
@@ -72,6 +97,11 @@ def main():
         action="store_true",
         help="include mednafen binary directly in the bundle",
     )
+    parser.add_argument(
+        "--compress",
+        action="store_true",
+        help="create package archive",
+    )
     in_args: argparse.Namespace = parser.parse_args()
 
     if in_args.build:
@@ -79,6 +109,9 @@ def main():
         build()
 
     bundle(in_args.include_mednafen)
+
+    if in_args.compress:
+        compress()
 
 
 if __name__ == "__main__":
