@@ -5,7 +5,6 @@ if frozen:
     import nslog  # noqa: F401
 
 import os  # noqa: E402
-import subprocess  # noqa: E402
 
 from darkdetect import isDark  # noqa: E402
 
@@ -44,10 +43,7 @@ def main():
     else:
         bin = f"{here}/src/mednaffe"
 
-    try:
-        subprocess.run((bin,), env=env, capture_output=True)
-    except subprocess.CalledProcessError as e:
-        print("could not run mednaffe: " + e.stdout.decode())
+    os.execle(bin, bin, env)
 
 
 if __name__ == "__main__":
