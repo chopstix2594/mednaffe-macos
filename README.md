@@ -6,6 +6,11 @@ Its main features are:
  * It is written in C language.
  * Available for Linux, Windows, and macOS.
  * The only dependency is GTK 3.
+   * The macOS App adds Python 3 as a dependency, along with the following pip libraries:
+    * PyInstaller
+    * std-nslog
+    * Pillow
+    * darkdetect
  * GPLv3 licensed.
 
 #### Downloads - Version 0.9.3
