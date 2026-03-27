@@ -9,6 +9,10 @@ from shutil import which
 # Library imports
 from PyInstaller import __main__ as pyi
 
+if sys.platform != "darwin":
+    print("Deploying the macOS App is only possible on macOS; exiting...")
+    sys.exit(1)
+
 homebrew_prefix_or_none: str | None = os.environ.get("HOMEBREW_PREFIX")
 assert homebrew_prefix_or_none is not None, (
     "HOMEBREW_PREFIX environment variable not set"
