@@ -13,6 +13,9 @@ if sys.platform != "darwin":
     print("Deploying the macOS App is only possible on macOS; exiting...")
     sys.exit(1)
 
+macos_patch_ver: int = 2
+macos_patch: str = f"macos{macos_patch_ver}"
+
 homebrew_prefix_or_none: str | None = os.environ.get("HOMEBREW_PREFIX")
 assert homebrew_prefix_or_none is not None, (
     "HOMEBREW_PREFIX environment variable not set"
@@ -81,7 +84,7 @@ def compress(include_mednafen: bool = False):
             print(ver_line)
             ver = ver_line.split("=")[1].replace("'", "").strip()
     machine: str = platform_machine().replace("arm64", "aarch64")
-    pkgname: str = f"mednaffe-{ver}-macos1-macOS-{machine}.tar.xz"
+    pkgname: str = f"mednaffe-{ver}-{macos_patch}-macOS-{machine}.tar.xz"
     appname: str = "Mednaffe.app"
     if include_mednafen:
         mednafen_info: list[str] = (
@@ -93,8 +96,8 @@ def compress(include_mednafen: bool = False):
             mednafen_info[0].replace("Starting Mednafen", "").strip()
         )
         pkgname = pkgname.replace(
-            f"mednaffe-{ver}-macos1",
-            f"mednaffe-{ver}-macos1+mednafen-{mednafen_version}",
+            f"mednaffe-{ver}-{macos_patch}",
+            f"mednaffe-{ver}-{macos_patch}+mednafen-{mednafen_version}",
         )
         appname = "Mednaffe+Mednafen.app"
     os.chdir("dist")
