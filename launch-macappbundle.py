@@ -7,7 +7,7 @@ if frozen:
 import os  # noqa: E402
 import subprocess  # noqa: E402
 
-import darkdetect  # noqa: E402
+from darkdetect import isDark  # noqa: E402
 
 if frozen:
     here = sys._MEIPASS  # type: ignore
@@ -18,7 +18,7 @@ else:
 def main():
     bin: str
     env: dict[str, str] = os.environ.copy()
-    if darkdetect.isDark():
+    if isDark():
         env["GTK_THEME"] = "Adwaita:dark"
     if frozen:
         if os.path.isfile(f"{here}/mednafen"):
