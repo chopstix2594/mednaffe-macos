@@ -5,6 +5,7 @@ if frozen:
     import nslog  # noqa: F401
 
 import os  # noqa: E402
+from glob import glob  # noqa: E402
 
 from darkdetect import isDark  # noqa: E402
 
@@ -20,6 +21,8 @@ def main():
     if isDark():
         env["GTK_THEME"] = "Adwaita:dark"
     if frozen:
+        env["DYLD_INSERT_LIBRARIES"] = os.pathsep.join(glob(f"{here}/*.dylib"))
+        env["DYLD_BIND_AT_LAUNCH"] = "1"
         if os.path.isfile(f"{here}/mednafen"):
             print("mednafen included in bundle, using bundled version", flush=True)
             env["PATH"] = here + os.pathsep + env["PATH"]
