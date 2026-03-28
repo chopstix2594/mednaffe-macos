@@ -267,7 +267,11 @@ med_process_exec_emu (MedProcess* self,
   g_io_channel_set_flags (output, G_IO_FLAG_NONBLOCK, NULL);
 
   g_io_add_watch (output, G_IO_IN | G_IO_HUP, io_func, self);
+#ifdef __APPLE__
+  g_child_watch_add_full (G_PRIORITY_DEFAULT, child_pid, child_watch_func, self, NULL);
+#else
   g_child_watch_add_full (G_PRIORITY_DEFAULT_IDLE, child_pid, child_watch_func, self, NULL);
+#endif
 
   g_io_channel_unref (output);
 
